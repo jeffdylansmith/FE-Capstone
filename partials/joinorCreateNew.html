@@ -1,0 +1,11 @@
+<div>
+If you would like to join an existing household, please enter the householdID here:
+<input type="text" ng-model="existingHouseId">
+<button ng-click="joinExistingHouse(existingHouseId)"></button>
+<fieldset>
+	<form>
+		Name:<input type="text" ng-model="newHousehold.name" name=""><br>
+	</form>
+</fieldset>
+<button ng-click="createNewHouse(newHousehold.name)">Create New</button>
+</div>

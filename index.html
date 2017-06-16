@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Dylan's Capstone</title>
+</head>
+<body>
+
+<div ng-app="Capstone">
+
+	<div ng-view>
+	</div>
+
+</div>
+
+<script type="text/javascript" src="./lib/node_modules/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="./lib/node_modules/angular/angular.min.js"></script>
+<script type="text/javascript" src="./lib/node_modules/angular-route/angular-route.min.js"></script>
+<script type="text/javascript" src="./lib/node_modules/firebase/firebase.js"></script>
+
+<script type="text/javascript" src="./app/app.js"></script>
+<script type="text/javascript" src="app/values/fb-creds.js"></script>
+
+<!--Factories-->
+<script type="text/javascript" src="./app/factories/authfactory.js"></script>
+<script type="text/javascript" src="./app/factories/datafactory.js"></script>
+<script type="text/javascript" src="./app/factories/ChoreFactory.js"></script>
+
+<!-- Controllers -->
+<script type="text/javascript" src="./app/controllers/authCtrl.js"></script>
+<script type="text/javascript" src="./app/controllers/householdOverviewCtrl.js"></script>
+<script type="text/javascript" src="./app/controllers/joinorCreateNewCtrl.js"></script>
+<script type="text/javascript" src="./app/controllers/allHouseholdTasksCtrl.js"></script>
+<script type="text/javascript" src="./app/controllers/addTaskCtrl.js"></script>
+</body>
+</html>
