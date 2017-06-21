@@ -60,5 +60,16 @@ app.factory("authFactory", function($q, $http, FBcreds) {
     	});
     };
 
-    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold};
+    let getHouseholdMembers = (houseId) => {
+        console.log("house ID as;ldkjf", houseId);
+        return $q((resolve, reject) => {
+        $http.get(`${FBcreds.databaseURL}/users/.json?orderBy="householdId"&&equalTo="${houseId}"`)
+            .then((response) => {
+                console.log("house members", response);
+                resolve(response);
+            });
+        });
+    };
+
+    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers};
 });

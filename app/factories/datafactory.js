@@ -1,6 +1,38 @@
 "use strict";
 
-app.factory("DataFactory", function($q, $http, FBcreds, $location){
+app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, ChoreFactory){
+
+	const getDay = () => {
+		return $q((resolve, reject) => {
+			$http.get(`${FBcreds.databaseURL}/day/.json`)
+			.then((response) => {
+				console.log("get day", response);
+				resolve(response.data);
+			});
+		});
+	};
+
+	const postDay = (day) => {
+		console.log(day);
+		return $q((resolve, reject) => {
+			let today = JSON.stringify(day);
+			$http.put(`${FBcreds.databaseURL}/day/.json`, today)
+			.then((post) => {
+				console.log(" day posted", day);
+				resolve(post);
+			});
+		});
+	};
+
+	const checkPulled = () => {
+		return $q((resolve, reject) => {
+			$http.get(`${FBcreds.databaseURL}/pulled/.json`)
+			.then((response) => {
+				let done = response.data;
+				resolve(done);
+			});
+		});
+	};
 
 	const checkHousehold = (user) => {
 		return $q((resolve, reject) => {
@@ -19,10 +51,21 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location){
 	};
 
 	const getHousehold = (userId) => {
-		$http.get(`${FBcreds.databaseURL}/households.json?orderBy="user"&equalTo="${userId}"`)
-		.then((household) => {
-			return household;
+		return $q((resolve, reject) => {
+			$http.get(`${FBcreds.databaseURL}/users/${userId}/householdId/.json`)
+			.then((household) => {
+				console.log("DF household", household.data);
+				resolve(household.data);
+			});
 		});
+	};
+
+	const returnHousehold = (userId) => {
+			$http.get(`${FBcreds.databaseURL}/users/${userId}/householdId/.json`)
+			.then((household) => {
+				console.log("DF household", household.data);
+				return household.data;
+			});
 	};
 
 	const createHousehold = (newHouseObj) => {
@@ -63,7 +106,9 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location){
 	};
 
 
-return{checkHousehold, getHousehold, createHousehold, getHouse, addUserToHouse};
+
+
+return{checkHousehold, getHousehold, createHousehold, getHouse, addUserToHouse,returnHousehold, checkPulled, getDay, postDay};
 
 });
 

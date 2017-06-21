@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("Capstone", ["ngRoute"]);
+const app = angular.module("Capstone", ["ngRoute", "angular-momentjs"]);
 
 let isAuth = (authFactory, $location) => new Promise ((resolve, reject) => {
 	authFactory.isAuthenticated()
@@ -38,9 +38,19 @@ app.config(function($routeProvider) {
         resolve: {isAuth}
     })
     .when('/addTask', {
-        templateUrl: 'addTask.html',
+        templateUrl: 'partials/addTask.html',
         controller: 'addTaskCtrl',
         resolve: {isAuth}
+    })
+    .when('/addTask/:choreId', {
+        templateUrl: 'partials/addTask.html',
+        controller: 'addTaskCtrl',
+        resolve: {isAuth}
+    })
+    .when('/userTodayTasks', {
+    templateUrl: 'partials/userTodayTasks.html',
+    controller: 'userTodayTasksCtrl',
+    resolve: {isAuth}
     })
     .otherwise('/');
 });
