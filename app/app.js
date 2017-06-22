@@ -52,6 +52,11 @@ app.config(function($routeProvider) {
     controller: 'userTodayTasksCtrl',
     resolve: {isAuth}
     })
+    .when('/userProfile/:thisUser', {
+    templateUrl: 'partials/userProfile.html',
+    controller: 'userProfileCtrl',
+    resolve: {isAuth}
+    })
     .otherwise('/');
 });
 

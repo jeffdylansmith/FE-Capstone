@@ -25,7 +25,7 @@ app.controller("addTaskCtrl", function($scope, DataFactory, ChoreFactory, authFa
 	$scope.updateTask = (A, B) => {
 		ChoreFactory.patchChore(A, B)
 		.then((Fire) => {
-			$location.path("#!/allHouseholdTasks");
+			$location.path("/allHouseholdTasks");
 			console.log("Fire", Fire);
 		});
 	};

@@ -1,10 +1,10 @@
 "use strict";
 
-app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBcreds, DataFactory, $moment, ChoreFactory){
+app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBcreds, DataFactory, $moment, ChoreFactory, $location){
 	console.log("householdOverviewCtrl");
 	$scope.houseObj = {};
 	$scope.currentHouse = "";
-
+	$scope.thisUser = authFactory.getUser();
 
 	let getHouseholdOverviewInfo = () => {
 		let thecurrentUser = authFactory.getUser();
@@ -15,8 +15,8 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 			$scope.currentHouse = householdId;
 			DataFactory.getHouse(householdId)
 			.then((house) => {
-			$scope.houseObj = house;
-			console.log("we did it - householdId", house);
+				$scope.houseObj = house;
+				console.log("we did it - householdId", house);
 			});
 		});
 	};
@@ -47,6 +47,15 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 			}
 		});
 	};
+
+	$scope.logout = () => {
+    console.log("logout clicked");
+    $location.path("/sdfg"); 
+    authFactory.logoutUser()
+      .then(function (data) {
+        //instead of '$location.path' that used to be here
+      });
+  };
 
 checkDay();
 getHouseholdOverviewInfo();

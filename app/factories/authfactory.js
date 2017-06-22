@@ -33,7 +33,7 @@ app.factory("authFactory", function($q, $http, FBcreds) {
             firebase.auth().onAuthStateChanged( (user) => {
                 if (user){
                     currentUser = user.uid;
-                    currentUserName = user.displayName;
+                    currentUserName = user.name;
                     console.log("user", user.uid);
                     resolve(true);
                 }else {
@@ -45,6 +45,10 @@ app.factory("authFactory", function($q, $http, FBcreds) {
 
     let getUser = function(){
         return currentUser;
+    };
+
+    let getUserName = function(){
+        return currentUserName;
     };
 
     let getUserHousehold = (uid) => {
@@ -71,5 +75,26 @@ app.factory("authFactory", function($q, $http, FBcreds) {
         });
     };
 
-    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers};
+    let getUserObj = (uid) => {
+        console.log("uid", uid);
+        return $q((resolve, reject) => {
+            $http.get(`${FBcreds.databaseURL}/users/.json?orderBy="uid"&&equalTo="${uid}"`)
+            .then((userObj) => {
+                console.log("userobj", userObj);
+                resolve(userObj);
+            });
+        });
+    };
+
+    let patchUser = (updatedUser, newUid) => {
+        return $q((resolve, reject) => {
+        let newUser = JSON.stringify(updatedUser);
+        $http.patch(`${FBcreds.databaseURL}/users/${newUid}/.json`, newUser)
+          .then ((itemID) => {
+            resolve(itemID);
+          });
+        });
+    };
+
+    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser};
 });

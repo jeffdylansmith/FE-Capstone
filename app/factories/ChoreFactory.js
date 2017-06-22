@@ -64,6 +64,15 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 		});
 	};
 
+		const deleteDailyChore = (choreId) => {
+		return $q((resolve, reject) => {
+			$http.delete(`${FBcreds.databaseURL}/todayChores/${choreId}/.json`)
+			.then((response) => {
+				resolve(response);
+			});
+		});
+	};
+
 	const getDayChores = (day, houseId) => {
 		let todaysChores = [];
 		console.log("dailyChorePull day + household", day, houseId);
@@ -94,12 +103,18 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 		}
 	};
 
-	const getTodayChore = () => {
+	const getUserHouseholdChores = (user) => {
+		let chores = [];
 		return $q((resolve, reject) => {
-			$http.get(`${FBcreds.databaseURL}/todayChores/.json?orderBy="user"`)
+			console.log("choreFactory User", user);
+			$http.get(`${FBcreds.databaseURL}/todayChores/.json?orderBy="assignedTo"&&equalTo="${user}"`)
 			.then((response) => {
-				console.log("my chores for today", response);
-				resolve(response);
+				let itemCollection = response.data;
+				Object.keys(itemCollection).forEach((key) => {
+				itemCollection[key].choreId = key;
+        		chores.push(itemCollection[key]);
+				});
+			resolve(chores);
 			});
 		});
 	};
@@ -117,12 +132,11 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 				.then((X) => {
 					console.log("assign members", houseMembers);
 					for (let chore in dailyChores){
-						//let newChoreObj = dailyChores[chore];
-						console.log("asdfjljdflkj members", dailyChores[chore].title);
+						console.log("chore name", dailyChores[chore].title);
 						let shuffler = Math.floor((Math.random() * houseMembers.length));
 						console.log("suffler", shuffler);
 						console.log("member shuffle", houseMembers[shuffler].name);
-						dailyChores[chore].assignedTo = houseMembers[shuffler].name;
+						dailyChores[chore].assignedTo = houseMembers[shuffler].uid;
 					}
 					console.log("newChoreObj", dailyChores);
 					postTodayChores(dailyChores);
@@ -134,14 +148,14 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 	let pushPlayas = (members) => {
 		return $q((resolve, reject) => {
 			console.log("pushplayas", members);
-			for(let playa in members){
-				houseMembers.push(members[playa]);
+			for(let member in members){
+				houseMembers.push(members[member]);
 			}
 			resolve("done");
 		});
 	};
 
- 	return {addNewChore, getAllHouseholdChores, getChore, patchChore, deleteChore, getDayChores, postTodayChores, assignDailyChores};
+ 	return {addNewChore, getAllHouseholdChores, getChore, patchChore, deleteChore, getDayChores, postTodayChores, assignDailyChores, getUserHouseholdChores, deleteDailyChore};
 
 });
 

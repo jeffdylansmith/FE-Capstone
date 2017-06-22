@@ -1,6 +1,7 @@
 All household Tasks
 <button><a ng-href="#!/householdOverview">Back to House View</a></button>
 <button><a ng-href="#!/addTask">Click Here to Add a Task</a></button>
+
 <div ng-repeat="chore in chores">
 	<h4><a ng-href="#!/addTask/{{chore.choreId}}">{{chore.title}}<a></h4><h3 ng-click="deleteTask(chore.choreId)">X</h3>
 	<p>{{chore.description}}</p>

@@ -1,1 +1,8 @@
-Youve got Everything!!
+<button><a ng-href="#!/householdOverview">Back to House View</a></button>
+<div ng-repeat="chore in chores">
+	<h4>{{chore.title}}</h4><h3 ng-click="deleteDailyTask(chore.choreId)">X</h3>
+	<p>{{chore.description}}</p>
+	<p>{{chore.assignedTo}}</p>
+	<p>{{chore.day}}</p>
+	<p>{{chore.points}}</p>
+</div>
