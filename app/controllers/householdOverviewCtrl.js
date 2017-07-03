@@ -13,12 +13,23 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 		.then((householdId) => {
 			console.log("householdId", householdId);
 			$scope.currentHouse = householdId;
+			getMembers($scope.currentHouse);
 			DataFactory.getHouse(householdId)
 			.then((house) => {
 				$scope.houseObj = house;
 				console.log("we did it - householdId", house);
 			});
 		});
+	};
+
+	let getMembers = (X) => {
+		console.log("getMembersXXX", X);
+		authFactory.getHouseholdMembers(X)
+		.then((answer) => {
+			console.log(answer.data);
+			$scope.members = answer.data;
+		});
+
 	};
 
 
@@ -40,7 +51,6 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 							ChoreFactory.assignDailyChores(dailychores, $scope.currentHouse)
 							.then((answer) => {
 								console.log("daily chores", answer);
-								// ChoreFactory.postTodayChores(answer);
 							});
 						});
 					});
@@ -50,10 +60,10 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 
 	$scope.logout = () => {
     console.log("logout clicked");
-    $location.path("/sdfg"); 
+    $location.path("/sdfg");
     authFactory.logoutUser()
       .then(function (data) {
-        //instead of '$location.path' that used to be here
+
       });
   };
 

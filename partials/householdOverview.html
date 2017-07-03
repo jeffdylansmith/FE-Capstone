@@ -1,6 +1,11 @@
-<p>HEY - Household Overview!!!</p>
-<h1>{{houseObj.name}}</h1>
-<button><a ng-href="#!/allHouseholdTasks">View all</a></button>
-<button><a ng-href="#!/userTodayTasks">My Tasks for Today</a></button>
+<div class="houseOverviewHeading">
+<h1><b>{{houseObj.name}}</b></h1>
+<button><a ng-href="#!/allHouseholdTasks">Manage Tasks</a></button>
 <button><a ng-href="#!/userProfile/{{thisUser}}">Edit Profile</a></button>
-<button ng-click="logout()">log out</button>
+</div>
+<br><br><hr>
+
+<div ng-repeat="user in members">
+	<h1>{{user.name}}</h1>
+	<h3>Points:{{user.points}}</h3>
+</div>

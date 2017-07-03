@@ -1,9 +1,10 @@
-Hey - Add Task Form
+<div class="input-field">
 <fieldset>
 	<form>
 		<h6>Title:</h6><input type="text" ng-model="task.title">
 		<h6>Description:</h6><input type="text" ng-model="task.description">
-		<h6>Day of the week:</h6><select ng-model="task.day">
+		<h6>Day of the week:</h6>
+		<select ng-model="task.day" class="browser-default">
 			<option>Sunday</option>
 			<option>Monday</option>
 			<option>Tuesday</option>
@@ -13,7 +14,7 @@ Hey - Add Task Form
 			<option>Saturday</option>
 		</select>
 		<h6>Points (1pt. = 5 min):</h6>
-		<select ng-model="task.points">
+		<select ng-model="task.points" class="browser-default">
 			<option>0</option>
 			<option>1</option>
 			<option>2</option>
@@ -22,11 +23,9 @@ Hey - Add Task Form
 			<option>5</option>
 			<option>6</option>
 		</select>
-		<h6>Assign Task:</h6>
-		<select ng-model="task.assignedTo">
-			<option ng-repeat="member in houseMembers">{{member.name}}</option>
-		</select>
 	</form>
 </fieldset>
-<button ng-click="buildNewTask()" ng-show="!saveOrSubmit">Submit</button>
-<button ng-click="updateTask(Id, task)" ng-show="saveOrSubmit">Save</button>
+</div>
+<button id="saveOrSubmit" ng-click="buildNewTask()" ng-show="!saveOrSubmit">Submit</button>
+<button id="saveOrSubmit" ng-click="updateTask(Id, task)" ng-show="saveOrSubmit">Save</button>
+

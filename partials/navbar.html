@@ -1,0 +1,12 @@
+  <div class="navbar-fixed">
+  <nav class="navbar">
+    <div class="nav-wrapper">
+      <ul id="nav-mobile" class="right">
+        <li><a ng-href="#!/householdOverview" ng-show="!isLoggedIn">House Overview</a></li>
+        <li><a ng-href="#!/userTodayTasks" ng-show="!isLoggedIn">Today's tasks</a></li>
+        <li><a ng-click="logout()" ng-show="!isLoggedIn">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+</div>
+

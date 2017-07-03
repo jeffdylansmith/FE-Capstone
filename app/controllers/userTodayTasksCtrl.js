@@ -20,11 +20,15 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
  		});
  	};
 
- 	$scope.deleteDailyTask = (X) => {
- 		ChoreFactory.deleteDailyChore(X)
- 		.then((response) => {
- 			console.log(response);
- 			getUserHouseholdTasks();
+ 	$scope.deleteDailyTask = (Xpoints, Y) => {
+ 		console.log("X", Xpoints);
+ 		authFactory.addPoints(Xpoints)
+ 		.then((Hey) => {
+ 		ChoreFactory.deleteDailyChore(Y)
+	 		.then((response) => {
+	 			console.log(response);
+	 			getUserHouseholdTasks();
+	 		});
  		});
  	};
 

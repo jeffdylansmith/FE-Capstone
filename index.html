@@ -2,10 +2,13 @@
 <html>
 <head>
 	<title>Dylan's Capstone</title>
+	<link rel="stylesheet" href="./lib/node_modules/materialize-css/dist/css/materialize.min.css">
+	<link rel="stylesheet" href="./css/main.css">
 </head>
 <body>
-<div ng-app="Capstone">
 
+<div ng-app="Capstone">
+<div ng-include="'./partials/navbar.html'" ng-controller="navBarCtrl"></div>
 	<div ng-view>
 	</div>
 
@@ -17,9 +20,9 @@
 <script type="text/javascript" src="./lib/node_modules/firebase/firebase.js"></script>
 <script type="text/javascript" src="./lib/node_modules/moment/min/moment.min.js"></script>
 <script type="text/javascript" src="./lib/node_modules/moment-recur/moment-recur.min.js"></script>
-	<script type="text/javascript" src="./lib/node_modules/angular-momentjs/angular-momentjs.min.js"></script>
-
-
+<script type="text/javascript" src="./lib/node_modules/angular-momentjs/angular-momentjs.min.js"></script>
+<script type="text/javascript" src="./lib/node_modules/angular-materialize/src/angular-materialize.min.js"></script>
+<script type="text/javascript" src="./lib/node_modules/materialize-css/dist/js/materialize.min.js"></script>
 <script type="text/javascript" src="./app/app.js"></script>
 <script type="text/javascript" src="app/values/fb-creds.js"></script>
 
@@ -36,5 +39,6 @@
 <script type="text/javascript" src="./app/controllers/addTaskCtrl.js"></script>
 <script type="text/javascript" src="./app/controllers/userTodayTasksCtrl.js"></script>
 <script type="text/javascript" src="./app/controllers/userProfileCtrl.js"></script>
+<script type="text/javascript" src="./app/controllers/navbarCtrl.js"></script>
 </body>
 </html>

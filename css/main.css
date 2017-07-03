@@ -1,3 +1,36 @@
+body{
+	background-color: grey;
+}
 
+.navbar{
+	background-color: #31E8B3;
+	opacity: .8;
+}
+
+.houseOverviewHeading{
+	width: 66%;
+	margin: auto;
+	color:white;
+}
+
+.card-title{
+	text-decoration: underline;
+}
+
+.whiteText{
+	color: white;
+}
+
+.input-field{
+	width:85%;
+	margin:auto;
+	padding-top: 5em;
+	color:black;
+}
+
+#saveOrSubmit{
+	margin-left:45%;
+	margin-top: 2em;
+}
 
 /*# sourceMappingURL=main.css.map */

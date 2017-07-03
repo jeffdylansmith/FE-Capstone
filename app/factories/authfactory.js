@@ -78,10 +78,10 @@ app.factory("authFactory", function($q, $http, FBcreds) {
     let getUserObj = (uid) => {
         console.log("uid", uid);
         return $q((resolve, reject) => {
-            $http.get(`${FBcreds.databaseURL}/users/.json?orderBy="uid"&&equalTo="${uid}"`)
+            $http.get(`${FBcreds.databaseURL}/userProfiles/.json?orderBy="uid"&&equalTo="${uid}"`)
             .then((userObj) => {
                 console.log("userobj", userObj);
-                resolve(userObj);
+                resolve(userObj.data[uid]);
             });
         });
     };
@@ -96,5 +96,31 @@ app.factory("authFactory", function($q, $http, FBcreds) {
         });
     };
 
-    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser};
+    let putUserProfile = (newUserProfile) => {
+        return $q((resolve, reject) => {
+            let newUserPro = JSON.stringify(newUserProfile);
+            $http.put(`${FBcreds.databaseURL}/userProfiles/${currentUser}/.json`, newUserPro)
+            .then((answer) => {
+                console.log("answer", answer);
+                resolve(answer);
+            });
+        });
+    };
+
+    let addPoints = (X) => {
+        console.log("authfactory points X", X);
+        return $q((resolve, reject) => {
+            getUserObj(currentUser)
+            .then((userObject) => {
+                console.log("userObject", userObject);
+                let userNewPoints = parseInt(userObject.points) + parseInt(X);
+                console.log("newPoints", userNewPoints);
+                userObject.points = userNewPoints;
+                putUserProfile(userObject);
+            });
+            resolve("all good");
+        });
+    };
+
+    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser, addPoints};
 });

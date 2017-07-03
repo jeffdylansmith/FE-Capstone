@@ -1,6 +1,6 @@
 "use strict";
 
-const app = angular.module("Capstone", ["ngRoute", "angular-momentjs"]);
+const app = angular.module("Capstone", ["ngRoute", "angular-momentjs", 'ui.materialize']);
 
 let isAuth = (authFactory, $location) => new Promise ((resolve, reject) => {
 	authFactory.isAuthenticated()
