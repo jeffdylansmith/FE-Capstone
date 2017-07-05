@@ -23,7 +23,6 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
 	 			} else {
 	 				console.log("yep", tasks);
 	 				$scope.choresDone = false;
-	 				
 	 			}
  			});
  		});
