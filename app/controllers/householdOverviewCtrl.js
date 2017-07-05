@@ -12,6 +12,7 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 		console.log("this is my house!!!", thecurrentUser);
 		authFactory.getUserHousehold(thecurrentUser)
 		.then((householdId) => {
+			checkMonth();
 			console.log("householdId", householdId);
 			$scope.currentHouse = householdId;
 			getMembers($scope.currentHouse);
@@ -32,7 +33,6 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 		});
 
 	};
-
 
 	let checkDay = () => {
 		let now = $moment().format('dddd');
@@ -59,14 +59,32 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 		});
 	};
 
-	$scope.logout = () => {
+    $scope.logout = () => {
     console.log("logout clicked");
     $location.path("/sdfg");
     authFactory.logoutUser()
       .then(function (data) {
 
       });
-  };
+    };
+
+    let checkMonth = () => {
+  	  let monthDate = $moment().format('MMM YYYY');
+  	  console.log(monthDate);
+  	  DataFactory.getMonthDate()
+		.then((date) => {
+			if (date === monthDate) {
+				console.log("date is up to date");
+			} else {
+				console.log("we need award a trophy", $scope.currentHouse);
+				DataFactory.awardTrophy($scope.currentHouse, date)
+					.then((done) => {
+						DataFactory.postMonthDate(monthDate);
+					});
+			}
+		});
+	};
+
 
 checkDay();
 getHouseholdOverviewInfo();

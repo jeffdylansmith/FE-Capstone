@@ -1,6 +1,6 @@
 "use strict";
 
-app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, ChoreFactory){
+app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, ChoreFactory, authFactory){
 
 	const getDay = () => {
 		return $q((resolve, reject) => {
@@ -19,6 +19,28 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, Chor
 			$http.put(`${FBcreds.databaseURL}/day/.json`, today)
 			.then((post) => {
 				console.log(" day posted", day);
+				resolve(post);
+			});
+		});
+	};
+
+	const getMonthDate = () => {
+		return $q((resolve, reject) => {
+			$http.get(`${FBcreds.databaseURL}/monthDate/.json`)
+			.then((response) => {
+				console.log("get day", response);
+				resolve(response.data);
+			});
+		});
+	};
+
+	const postMonthDate = (date) => {
+		console.log(date);
+		return $q((resolve, reject) => {
+			let todayX = JSON.stringify(date);
+			$http.put(`${FBcreds.databaseURL}/monthDate/.json`, todayX)
+			.then((post) => {
+				console.log(" Month posted", post);
 				resolve(post);
 			});
 		});
@@ -105,10 +127,54 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, Chor
 		});
 	};
 
+	const awardTrophy = (houseIdd, monthDate) => {
+		console.log("houseID*(*(*(**(", houseIdd);
+		var pointsArray = [];
+		return $q((resolve, reject) => {
+			authFactory.getHouseholdMembersProfiles(houseIdd)
+			.then((contestant) => {
+				console.log("Award Trophy response", contestant);
+				let usersPoints = contestant.data;
+				for(let X in usersPoints) {
+					pointsArray.push(usersPoints[X].points);
+					console.log("Here's All the users", usersPoints[X]);
+				}
+				let winnerArray = pointsArray.sort();
+				winnerArray.reverse();
+				console.log("pointsArray", winnerArray);
+				let winner = winnerArray[0];
+				for (let Y in usersPoints) {
+					if (usersPoints[Y].points === winner){
+						console.log(usersPoints[Y].uid, "WON!!!");
+						let theBigWinner = usersPoints[Y].uid;
+						authFactory.addTrophy(theBigWinner, monthDate);
+						authFactory.removePoints(theBigWinner);
+					} else {
+						console.log(usersPoints[Y].uid, "didn't  win...");
+						authFactory.removePoints(usersPoints[Y].uid);
+					}
+				}
+			});
+		});
+	};
 
 
 
-return{checkHousehold, getHousehold, createHousehold, getHouse, addUserToHouse,returnHousehold, checkPulled, getDay, postDay};
+
+return{
+	   checkHousehold,
+	   getHousehold,
+	   createHousehold,
+	   getHouse,
+	   addUserToHouse,
+	   returnHousehold,
+	   checkPulled,
+	   getDay,
+	   postDay,
+	   getMonthDate,
+	   postMonthDate,
+	   awardTrophy
+};
 
 });
 

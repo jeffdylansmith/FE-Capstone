@@ -133,5 +133,27 @@ app.factory("authFactory", function($q, $http, FBcreds) {
         });
     };
 
-    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser, addPoints, getHouseholdMembersProfiles};
+    let addTrophy = (user, trophy) => {
+        return $q((resolve, reject) => {
+            let newTrophy = JSON.stringify(trophy);
+            $http.post(`${FBcreds.databaseURL}/userProfiles/${user}/trophies/.json`, newTrophy)
+            .then((answer) => {
+                resolve(answer);
+            });
+        });
+    };
+
+    let removePoints = (user) => {
+        return $q((resolve, reject) => {
+            let zero = 0;
+            let newPoints = JSON.stringify(zero);
+            $http.put(`${FBcreds.databaseURL}/userProfiles/${user}/points/.json`, newPoints)
+            .then((response) => {
+                console.log(response);
+                resolve(response);
+            });
+        });
+    };
+
+    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser, addPoints, getHouseholdMembersProfiles, addTrophy, removePoints};
 });
