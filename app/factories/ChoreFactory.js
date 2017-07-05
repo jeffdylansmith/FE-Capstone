@@ -11,14 +11,12 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 			.then((response) => {
 				resolve(response);
 			});
-			//$location.path("/");
 		});
 	};
 
 	const getAllHouseholdChores = (houseId) => {
 		let chores = [];
 		console.log("Yah!", houseId);
-		//let houseName = houseId;
 		console.log("houseName",houseId);
 		return $q ((resolve, reject) => {
 			$http.get(`${FBcreds.databaseURL}/chores/.json?orderBy="householdId"&equalTo="${houseId}"`)
@@ -160,8 +158,8 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 		return $q((resolve, reject) => {
 			$http.get(`${FBcreds.databaseURL}/todayChores/.json?orderBy="householdId"&&equalTo="${houseId}"`)
 			.then((answer) => {
-				console.log("answer", answer.data);
-				if(answer.data !== 0){
+				console.log("answer", answer);
+				if (Object.keys(answer.data)[0] !== undefined) {
 					let matcher = Object.keys(answer.data)[0];
 					console.log("matcher", matcher);
 					let stolenTask = answer.data[Object.keys(answer.data)[0]];

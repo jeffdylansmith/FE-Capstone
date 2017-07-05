@@ -5,6 +5,7 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
 
  let allHouseTasks = [];
  $scope.choresDone = false;
+ $scope.allDone = false;
 
  let getUserHouseholdTasks = (X) => {
 	let currentuser = authFactory.getUser();
@@ -15,14 +16,14 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
 	console.log("getUserHouseholdTasks", user);
  	ChoreFactory.getUserHouseholdChores(currentuser)
  		.then((tasks) => {
+ 			$scope.chores = tasks;
 	 			if(tasks <= 0){
 	 				console.log("ready to steal!");
 	 				$scope.choresDone = true;
-
 	 			} else {
 	 				console.log("yep", tasks);
 	 				$scope.choresDone = false;
-	 				$scope.chores = tasks;
+	 				
 	 			}
  			});
  		});
@@ -51,6 +52,8 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
 				$scope.choresDone = false;
 				getUserHouseholdTasks();
 			} else {
+				 $scope.allDone = true;
+				 $scope.choresDone = false;
 				console.log("Good Job!! There are no more tasks to be done!");
 			}
 		});
