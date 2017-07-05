@@ -28,8 +28,24 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 		console.log("getMembersXXX", X);
 		authFactory.getHouseholdMembersProfiles(X)
 		.then((answer) => {
-			console.log(answer.data);
-			$scope.members = answer.data;
+			console.log("This is what you're looking for...", answer.data);
+			let houseMembers = answer.data;
+			$scope.members = [];
+			for(let X in houseMembers){
+				let prizesCat = [];
+				if (houseMembers[X].trophies){
+					console.log("houseMembers[X].trophies", houseMembers[X].trophies);
+					for(let Y in houseMembers[X].trophies){
+					console.log("trophies", houseMembers[X].trophies[Y]);
+					prizesCat.push(houseMembers[X].trophies[Y]);
+					}
+				}
+				console.log("prize", prizesCat);
+				houseMembers[X].prizes = prizesCat;
+				$scope.members.push(houseMembers[X]);
+				console.log("$scope.membert", $scope.members);
+			}
+
 		});
 
 	};
@@ -69,18 +85,23 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
     };
 
     let checkMonth = () => {
-  	  let monthDate = $moment().format('MMM YYYY');
-  	  console.log(monthDate);
+  	  let month = $moment().format('MMMYYYY');
+  	  console.log(month);
   	  DataFactory.getMonthDate()
 		.then((date) => {
-			if (date === monthDate) {
+			console.log("?????", date, month);
+			if (date === month) {
 				console.log("date is up to date");
 			} else {
 				console.log("we need award a trophy", $scope.currentHouse);
 				DataFactory.awardTrophy($scope.currentHouse, date)
 					.then((done) => {
-						DataFactory.postMonthDate(monthDate);
+						DataFactory.postMonthDate(month)
+						.then((X) => {
+							getHouseholdOverviewInfo();
+						});
 					});
+
 			}
 		});
 	};

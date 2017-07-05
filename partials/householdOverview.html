@@ -9,4 +9,5 @@
 <div ng-repeat="user in members" class="houseOverviewHeading">
 	<h2>{{user.name}}</h2>
 	<h4>Points:{{user.points}}</h4>
+	<h4 ng-repeat="trophy in user.prizes">Trophies: {{trophy}}</h4>
 </div>

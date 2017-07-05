@@ -28,20 +28,20 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, Chor
 		return $q((resolve, reject) => {
 			$http.get(`${FBcreds.databaseURL}/monthDate/.json`)
 			.then((response) => {
-				console.log("get day", response);
+				console.log("get Month", response);
 				resolve(response.data);
 			});
 		});
 	};
 
 	const postMonthDate = (date) => {
-		console.log(date);
+		console.log("postMonthDate", date);
 		return $q((resolve, reject) => {
 			let todayX = JSON.stringify(date);
 			$http.put(`${FBcreds.databaseURL}/monthDate/.json`, todayX)
-			.then((post) => {
-				console.log(" Month posted", post);
-				resolve(post);
+			.then((posted) => {
+				console.log(" Month posted", posted);
+				resolve(posted);
 			});
 		});
 	};
@@ -155,6 +155,7 @@ app.factory("DataFactory", function($q, $http, FBcreds, $location, $moment, Chor
 					}
 				}
 			});
+			resolve();
 		});
 	};
 
