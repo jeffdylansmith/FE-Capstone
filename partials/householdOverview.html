@@ -1,11 +1,12 @@
 <div class="houseOverviewHeading">
 <h1><b>{{houseObj.name}}</b></h1>
-<button><a ng-href="#!/allHouseholdTasks">Manage Tasks</a></button>
-<button><a ng-href="#!/userProfile/{{thisUser}}">Edit Profile</a></button>
+
+<a ng-href="#!/allHouseholdTasks" class="waves-effect waves-light btn">Manage Tasks</a>
+<!-- <button><a ng-href="#!/userProfile/{{thisUser}}">Edit Profile</a></button> -->
 </div>
 <br><br><hr>
 
-<div ng-repeat="user in members">
-	<h1>{{user.name}}</h1>
-	<h3>Points:{{user.points}}</h3>
+<div ng-repeat="user in members" class="houseOverviewHeading">
+	<h2>{{user.name}}</h2>
+	<h4>Points:{{user.points}}</h4>
 </div>

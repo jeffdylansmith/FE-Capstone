@@ -155,6 +155,12 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 		});
 	};
 
+	let stealTask = () => {
+		return $q((resolve, reject) => {
+
+		});
+	};
+
  	return {addNewChore, getAllHouseholdChores, getChore, patchChore, deleteChore, getDayChores, postTodayChores, assignDailyChores, getUserHouseholdChores, deleteDailyChore};
 
 });

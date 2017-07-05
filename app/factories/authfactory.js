@@ -122,5 +122,16 @@ app.factory("authFactory", function($q, $http, FBcreds) {
         });
     };
 
-    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser, addPoints};
+    let getHouseholdMembersProfiles = (houseId) => {
+        console.log("house ID as;ldkjf", houseId);
+        return $q((resolve, reject) => {
+        $http.get(`${FBcreds.databaseURL}/userProfiles/.json?orderBy="householdId"&&equalTo="${houseId}"`)
+            .then((response) => {
+                console.log("house members", response);
+                resolve(response);
+            });
+        });
+    };
+
+    return {authWithProvider, addUser, logoutUser, isAuthenticated, getUser, getUserHousehold, getHouseholdMembers, getUserName, getUserObj, patchUser, addPoints, getHouseholdMembersProfiles};
 });

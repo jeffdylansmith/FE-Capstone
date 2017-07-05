@@ -5,6 +5,7 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 	$scope.houseObj = {};
 	$scope.currentHouse = "";
 	$scope.thisUser = authFactory.getUser();
+	$scope.thisUserName = authFactory.getUserName();
 
 	let getHouseholdOverviewInfo = () => {
 		let thecurrentUser = authFactory.getUser();
@@ -24,7 +25,7 @@ app.controller("householdOverviewCtrl", function($scope, authFactory, $http, FBc
 
 	let getMembers = (X) => {
 		console.log("getMembersXXX", X);
-		authFactory.getHouseholdMembers(X)
+		authFactory.getHouseholdMembersProfiles(X)
 		.then((answer) => {
 			console.log(answer.data);
 			$scope.members = answer.data;

@@ -4,7 +4,6 @@ body{
 
 .navbar{
 	background-color: #31E8B3;
-	opacity: .8;
 }
 
 .houseOverviewHeading{
@@ -32,5 +31,30 @@ body{
 	margin-left:45%;
 	margin-top: 2em;
 }
+
+.widthCtrl{
+	width: 50%;
+}
+
+
+
+.row{
+	width:15em;
+	height: 15em;
+	margin-bottom: 5em;
+
+}
+
+
+
+.container{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content:space-around;
+	 align-items: flex-start;
+	 padding-right: 
+}
+
+
 
 /*# sourceMappingURL=main.css.map */
