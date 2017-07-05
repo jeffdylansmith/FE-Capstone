@@ -155,13 +155,31 @@ app.factory("ChoreFactory", function($q, $http, FBcreds, $location, authFactory)
 		});
 	};
 
-	let stealTask = () => {
+	let stealTask = (houseId, userId) => {
+		console.log("houseId", houseId, "userId", userId);
 		return $q((resolve, reject) => {
-
+			$http.get(`${FBcreds.databaseURL}/todayChores/.json?orderBy="householdId"&&equalTo="${houseId}"`)
+			.then((answer) => {
+				console.log("answer", answer.data);
+				if(answer.data !== 0){
+					let matcher = Object.keys(answer.data)[0];
+					console.log("matcher", matcher);
+					let stolenTask = answer.data[Object.keys(answer.data)[0]];
+					stolenTask.assignedTo = userId;
+					console.log("stolenTask", stolenTask);
+					$http.patch(`${FBcreds.databaseURL}/todayChores/${matcher}/.json`, stolenTask)
+					.then((response) => {
+						console.log("response", response);
+						resolve(true);
+					});
+				} else {
+					resolve(false);
+				}
+			});
 		});
 	};
 
- 	return {addNewChore, getAllHouseholdChores, getChore, patchChore, deleteChore, getDayChores, postTodayChores, assignDailyChores, getUserHouseholdChores, deleteDailyChore};
+ 	return {addNewChore, getAllHouseholdChores, getChore, patchChore, deleteChore, getDayChores, postTodayChores, assignDailyChores, getUserHouseholdChores, deleteDailyChore, stealTask};
 
 });
 

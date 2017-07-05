@@ -4,7 +4,7 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
  console.log("you've got all tasks");
 
  let allHouseTasks = [];
-
+ $scope.choresDone = false;
 
  let getUserHouseholdTasks = (X) => {
 	let currentuser = authFactory.getUser();
@@ -15,36 +15,47 @@ app.controller("userTodayTasksCtrl", function($scope, authFactory, $window, $loc
 	console.log("getUserHouseholdTasks", user);
  	ChoreFactory.getUserHouseholdChores(currentuser)
  		.then((tasks) => {
-	 			if(tasks === allHouseTasks){
+	 			if(tasks <= 0){
 	 				console.log("ready to steal!");
 	 				$scope.choresDone = true;
 
 	 			} else {
-	 				console.log(tasks);
+	 				console.log("yep", tasks);
 	 				$scope.choresDone = false;
 	 				$scope.chores = tasks;
-	 			 }
+	 			}
  			});
  		});
  	};
 
- 	$scope.deleteDailyTask = (Xpoints, Y) => {
- 		console.log("X", Xpoints);
- 		authFactory.addPoints(Xpoints)
- 		.then((Hey) => {
- 		ChoreFactory.deleteDailyChore(Y)
-	 		.then((response) => {
-	 			console.log(response);
-	 			getUserHouseholdTasks();
-	 		});
- 		});
- 	};
+ $scope.deleteDailyTask = (Xpoints, Y) => {
+	console.log("X", Xpoints);
+	authFactory.addPoints(Xpoints)
+	.then((Hey) => {
+	ChoreFactory.deleteDailyChore(Y)
+		.then((response) => {
+			console.log(response);
+			getUserHouseholdTasks();
+		});
+	});
+ };
 
- 	// $scope.getOneTask = () => {
-
- 	// };
-
-
+ $scope.stealTask = () => {
+ 	let currentuser = authFactory.getUser();
+ 	DataFactory.getHousehold(currentuser)
+ 	.then((response) => {
+		ChoreFactory.stealTask(response, currentuser)
+		.then((answer) => {
+			console.log("CtrlAnswer", answer);
+			if(answer === true){
+				$scope.choresDone = false;
+				getUserHouseholdTasks();
+			} else {
+				console.log("Good Job!! There are no more tasks to be done!");
+			}
+		});
+	});
+ };
 
 getUserHouseholdTasks();
 });
